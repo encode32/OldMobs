@@ -128,6 +128,9 @@ public class OldMobsMod implements WurmClientMod, Initable, PreInitable, Configu
 		}else if(hoverName.contains("sly"))
 		{
 			color = colorSly;
+		}else
+		{
+			return null;
 		}
 		return color;
 	}
@@ -159,8 +162,6 @@ public class OldMobsMod implements WurmClientMod, Initable, PreInitable, Configu
 						float r = (float) args[1];
 						float g = (float) args[2];
 						float b = (float) args[3];
-						float a = (float) args[4];
-						int paintType = (int) args[5];
 						
 						CreatureCellRenderable creature = serCon.getCreatures().get(id);
 				        
@@ -170,12 +171,9 @@ public class OldMobsMod implements WurmClientMod, Initable, PreInitable, Configu
 				        	
 							color = this.chooseColor(hoverName, color);
 							
-				        	if(!color.equals(new float[]{r, g, b}))
+				        	if(color != null)
 							{
 								args = setArgs(args,color);
-							}else
-							{
-								creature.setPaint(r, g, b, a, paintType);
 							}
 				        } else if (Options.logExtraErrors.value()) {
 				            logger.warning("Can't (re)paint creature " + id + " because it doesn't exist");
@@ -196,7 +194,7 @@ public class OldMobsMod implements WurmClientMod, Initable, PreInitable, Configu
 						
 						color = this.chooseColor(hoverName, color);
 						
-						if(!color.equals(new float[]{0.0f, 0.0f, 0.0f}))
+						if(color != null)
 						{
 							mob.setPaint(color[0], color[1], color[2], 1.0f, 0);
 						}
